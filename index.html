@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover GitHub developer, explore profiles, repositories, followers and programming languages."/>
+
+    <title>GitHub-Discover GitHub Developer</title>
+    <!-- tailwind css cdn : learning/prototype setup -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="./script.js" defer></script>
+</head>
+
+
+<body class="min-h-screen bg-[#09090f] text-slate-100 antialiased">
+
+    <!-- background -->
+    <div class="grid-bg pointer-events-none fixed- inset-0"></div>
+
+    <!-- navbar -->
+     <header class="relative z-10 border-b border-white/10">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-5">
+            <a href="#" class="flex items-center gap-3" arial-label="GitFinder home"> 
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-violet-600 text-xl">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="h-6 w-6" arial-hidden="true">
+                        <path d="M12 .8a11.2 11.2 0 0 0-3.54 21.83c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.69.08-.69 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.63 1.22 3.27.93.1-.73.39-1.22.71-1.5-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.29-.5-1.43.11-2.98 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.13-1.45 3.08-1.15 3.08-1.15.61 1.55.23 2.69.11 2.98.72.79 1.16 1.79 1.16 3.02 0 4.32-2.64 5.27-5.15 5.55.4.35.76 1.03.76 2.08v3.1c0 .3.2.65.77.54A11.2 11.2 0 0 0 12 .8Z"/>
+                    </svg>
+                </span>
+                <span class="text-xl font-bold tracking-tight">
+                    Git<span class="text-violet-400">Finder</span>
+                </span>
+            </a>
+
+            <a 
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="rounded-lg border border-white/10 px-4 py-2 text-sm text-slate-300 transition hover:border-violet-400 hover:text-white"> 
+            GitHub
+        </a>
+        </nav>
+
+     </header>
+     <main class="relative z-10 mx-auto max-w-7xl px-5 pb-20">
+
+     <!-- Hero -->
+      <section class="mx-auto max-w-3xl py-16 text-center sm:py-24">
+        <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-violet-400/20 bg-violet-500/10 px-4 py-2 text-sm text-violet-300">
+            <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+            Powered by GitHub REST API
+            </div>
+            <h1 class="text-4xl font-extrabold leading-tight tracking-tight sm:text-6xl">Discover Developers.
+            <span class="gradient-text block">Explore their code.</span>
+            </h1>
+
+            <p class="mx-auto mt-6 max-w-xl text-base leading-7 text-slate-400 sm:text-lg"> Find GitHub developer, explore their profiles, discover repositories and see what they are building.</p>
+
+            <!-- Search -->
+            <form id="search-form" class="search-box mx-auto mt-10 flex max-w-2xl flex-col gap-3 rounded-2xl p-3 sm:flex-row">
+                <label for="username" class="sr-only">GitHub username</label>
+                
+                <div class="flex min-w-0 flex-1 items-center gap-3 px-3">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5 shrink-0 text-slate-500" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                            <path d="m16 16 4 4"></path>
+                       </svg> 
+
+                       <input 
+                            id="username"
+                            name="username"
+                            type="text"
+                            placeholder="Enter GitHub username..."
+                            autocomplete="off"
+                            max-length="39"
+                            required
+                            class="w-full bg-transparent py-3 text-sm text-white outline-none placeholder:text-slate-500"/>
+                </div>
+
+                    <button
+                    id="search-button"
+                    type="submit"
+                    class="inline-flex items-center justify-center gap-2 rounded-xl bg-violet-600 px-6 py-3 font-semibold transition hover:bg-violet-500 disabled:cursor-not-allowed disabled:opacity-60">
+                    <span id="button-spinner" class="spinner hidden" aria-hidden="true"></span>
+                    <span id="button-label">Search Profile</span></button>
+            </form>
+
+            <p class="mt-4 text-sm text-slate-500">
+                Try a developer:
+                <button type="button" data-username="torvalds" class="sample-link">torvalds</button>
+                <span class="mx-1">.</span>
+                <button type="button" data-username="gaearon" class="sample-link">gaearon</button>
+                <span class="mx-1">.</span>
+                <button type="button" data-username="abhi" class="sample-link">abhi</button>
+
+            </p>
+      </section>
+
+      <!-- status -->
+
+      <div
+        id="status" 
+        class="mx-auto mb-8 hidden max-w-3xl rounded-xl border px-5 py-4 text-sm"
+        role="status"
+        aria-live="polite">
+    </div>
+
+    <!-- result -->
+    <section id="results" class="">
+        <div class="mb-6 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+            <div>
+                <p class="text-sm font-medium uppercase tracking-[0.2em] text-violet-400">
+                    Search result
+                </p>
+                <h2 clas="mt-2 text-2xl font-bold sm:text-3xl">Developer Profile</h2>
+            </div>
+            <a 
+                id="all-repos-link"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm text-violet-300 hover:text-violet-200">
+            View All respositories</a>
+        </div>
+
+        <!-- profile card -->
+
+        <div id="profile-card" class="glass rounded-3xl p-6 sm:p-8"></div>
+            <!-- repositories heading -->
+             <div class="mb-6 mt-12 flex items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold">Popular repositories</h2>
+                    <p class="mt-2 text-sm text-slate-400">Recently updated public repositories</p>
+                </div>
+                <span id="repo-count" class="rounded-full border border-white/10 px-3 py-1 text-sm text-slate-300"> 0 repositories</span>
+             </div>
+             <div id="repo-grid" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3"></div>
+    </section>
+
+    <!-- welcome/features -->
+    <section id="welcome" class="pb-10">
+        <div class="mb-8 text-center">
+            <h2 class="text-2xl font-bold sm:text-3xl">Explore GitHub a pro</h2>
+            <p class="mt-3 text-slate-400">Everything you need to discover a developer.</p>
+        </div>
+
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <artilce class="feature-card rounded-2xl p-6">
+                <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-violet-500/15 text-2xl">👨‍💻</div>
+                <h3 class="text-lg font-semibold">Developer Profiles</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-400">Explore bios, avatars, followers, locations and profile links.</p>
+            </artilce>
+            
+
+            <article class="features-card rounded-2xl p-6">
+                <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-cyan-500/15 text-2xl">📦</div>
+                <h3 class="text-lg font-semibold">Repositories</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-400">Discover project description, programming languages, stars and forks.</p>
+            </article>
+
+            <article class="feature-card rounded-2xl p-6">
+                <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-500/15 text-2xl">⚡</div>
+                <h3 class="text-lg font-semibold">Fast Search</h3>
+                <p class="mt-2 text-sm leading-6 text-slate-400">Fetch public GitHub data directly from your browser.</p>
+            </article>
+
+        </div>
+
+    </section>
+
+   </main>
+<!-- footer -->
+
+<footer class="relative z-10 border-t border--white/10">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 py-7 text-center text-sm text-slate-500 sm:flex-row sm:text-left">
+    <p>Built with HTML, Tailwind CSS & JavaScript.</p>
+    <p>Data Provided bpy the GitHub REST API</p>
+
+    </div>
+</footer>
+
+    
+</body>
+</html>
